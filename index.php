@@ -1,26 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Crypto-manager</title>
+</head>
+<body>
 
-<?php
+    <h2>Введите свои данные</h2>
+    <form action="process.php" method="post">
+        <label for="name">Имя:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="price">Цена:</label>
+        <input type="text" id="price" name="price" required><br><br>
 
-$coin_list = [
-    'ATOM'=>[50, 50],
-    'DOT'=>[50, 50],
-    'STRK'=>[50, 50],
-    'SOL'=>[50, 50],
-];
-
-$coin_list += array('TON'=>[100, 200]);
-
-print_r($coin_list);
-
-function add_coin($name, $average_price, $number_of_coins) {
-    $coin_list[$name] = [$average_price, $number_of_coins];
-}
-add_coin("TUT", 123, 123);
-print_r($coin_list);
-
-// echo add_coin('SOL', 123, 123);
-
-
-// print_r($coin_list);
-
-// ?>
+        <label for="count">Количество:</label>
+        <input type="text" id="count" name="count" required><br><br>
+        
+        <input type="submit" value="Отправить">
+    </form>
+</body>
+</html>
