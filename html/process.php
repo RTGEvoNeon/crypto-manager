@@ -1,34 +1,40 @@
 <?php
-$db = ['MySQL-5.7', 'root', '', "crypto"];
-$conn = mysqli_connect(...$db);
-if (!$conn) {
-    die("Подключение с базой данных не прошло!");
-}
+$conn_string = "
+host=postgres
+port=5432
+dbname=crypto
+user=user
+password=password
+";
+$conn = pg_connect($conn_string);
 
-function add_transaction($symbol, $price, $count) {
+if ($conn) {
+echo "Соединение успешно!";
+} else {
+echo "Не удалось подключиться к базе данных";
+};
+
+function add_transaction($symbol, $price, $amount) {
     global $conn;
-    $name = "\"" . $symbol . "\"";
-    if ($res =  mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM coins WHERE symbol = $name"))) {    
+    if ($res =  pg_fetch_assoc(pg_query($conn, "SELECT * FROM coins WHERE symbol = '$symbol'"))) {    
         $coin_id =  $res['id'];
-        $request =  "INSERT INTO assets(user_id, coin_id, amount, purchase_price) VALUES(1, $coin_id, $count, $price);";        
-        mysqli_query($conn, $request);    
+        $request =  "INSERT INTO transactions(user_id, coin_id, amount, price) VALUES(1, $coin_id, $amount, $price);";        
+        pg_query($conn, $request);    
     } else {
-        $current_price = 100;
+        $current_price = 40;
         $query = "INSERT INTO coins(name, symbol, current_price) VALUES('$name', '$symbol', $current_price);";
-        mysqli_query($conn, $query);
+        pg_query($conn, $query);
     }
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = htmlspecialchars($_POST['name']);
     $price = htmlspecialchars($_POST['price']);
-    $count = htmlspecialchars($_POST['count']);
-    add_transaction($name, $price, $count);
+    $amount = htmlspecialchars($_POST['amount']);
+    add_transaction($name, $price, $amount);
 }
 
-$assets = mysqli_query($conn, "SELECT coins.symbol, assets.purchase_price, assets.amount FROM assets JOIN coins ON assets.coin_id=coins.id WHERE user_id = 1;");
+$transactions = pg_query($conn, "SELECT coins.symbol as symbol, transactions.price as price, transactions.amount as amount FROM transactions JOIN coins ON transactions.coin_id=coins.id WHERE user_id = 1;");
 
-
-
-mysqli_close($conn);
+pg_close($conn);
 ?>
