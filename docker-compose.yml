@@ -1,0 +1,32 @@
+services:
+  www:
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - crypto-network
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: Admin_1337
+      MYSQL_DATABASE: crypto_db
+      MYSQL_USER: crypto_user
+      MYSQL_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - crypto-network
+    ports:
+      - "3306:3306"
+
+networks:
+  crypto-network:
+    driver: bridge
+
+volumes:
+  db_data:

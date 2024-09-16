@@ -1,25 +1,27 @@
 <?php
-$conn_string = "
-host=postgres
-port=5432
-dbname=crypto
-user=user
-password=password
-";
-$conn = pg_connect($conn_string);
 
-if ($conn) {
-echo "Соединение успешно!";
-} else {
-echo "Не удалось подключиться к базе данных";
-};
+$dsn = 'mysql:host=db;dbname=crypto_db';
 
-function add_transaction($symbol, $price, $amount) {
+$username = 'crypto_user';
+$password = 'password';
+$options = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+];
+
+try {
+    $pdo = new PDO($dsn, $username, $password, $options);
+} catch (PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+}
+
+function add_transaction($symbol, $price, $amount)
+{
     global $conn;
-    if ($res =  pg_fetch_assoc(pg_query($conn, "SELECT * FROM coins WHERE symbol = '$symbol'"))) {    
+    if ($res =  pg_fetch_assoc(pg_query($conn, "SELECT * FROM coins WHERE symbol = '$symbol'"))) {
         $coin_id =  $res['id'];
-        $request =  "INSERT INTO transactions(user_id, coin_id, amount, price) VALUES(1, $coin_id, $amount, $price);";        
-        pg_query($conn, $request);    
+        $request =  "INSERT INTO transactions(user_id, coin_id, amount, price) VALUES(1, $coin_id, $amount, $price);";
+        pg_query($conn, $request);
     } else {
         $current_price = 40;
         $query = "INSERT INTO coins(name, symbol, current_price) VALUES('$name', '$symbol', $current_price);";
@@ -33,8 +35,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $amount = htmlspecialchars($_POST['amount']);
     add_transaction($name, $price, $amount);
 }
-
-$transactions = pg_query($conn, "SELECT coins.symbol as symbol, transactions.price as price, transactions.amount as amount FROM transactions JOIN coins ON transactions.coin_id=coins.id WHERE user_id = 1;");
-
-pg_close($conn);
-?>
+$query = "SELECT * FROM transactions;";
+$transactions = $pdo->query($query);
