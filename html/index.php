@@ -1,19 +1,7 @@
 <?php
+require_once '../api/database.php';
 
-$dsn = 'mysql:host=db;dbname=crypto_db';
-
-$username = 'crypto_user';
-$password = 'password';
-$options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-];
-
-try {
-    $pdo = new PDO($dsn, $username, $password, $options);
-} catch (PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
-}
+$pdo = Database::getInstance()->getConnection();
 
 // function add_transaction($symbol, $price, $amount)
 // {
