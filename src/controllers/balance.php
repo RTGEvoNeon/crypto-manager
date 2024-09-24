@@ -15,5 +15,4 @@ function getBalancesByUserId($id)
     return $balances;
 }
 
-header('Content-Type: application/json');
-echo json_encode(getBalancesByUserId(1), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+getBalancesByUserId(1);

@@ -2,6 +2,7 @@
 
 require_once "database.php";
 
+//TODO: доделать функцию, нет должного функционала
 function auth($login, $password)
 {
     $pdo = Database::getInstance()->getConnection();

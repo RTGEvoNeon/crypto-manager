@@ -2,6 +2,7 @@
 
 require_once 'database.php';
 
+
 function addTransaction($user_id, $coin_id, $type, $quantity, $price)
 {
     $pdo = Database::getInstance()->getConnection();
@@ -11,5 +12,6 @@ function addTransaction($user_id, $coin_id, $type, $quantity, $price)
     $stmt->bindParam(":type", $type);
     $stmt->bindParam(":quantity", $quantity);
     $stmt->bindParam(":price", $price);
-    $stmt->execute();
+    //true | false
+    return $stmt->execute();
 }
