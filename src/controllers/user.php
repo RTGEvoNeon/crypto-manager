@@ -12,6 +12,7 @@ function addUser($first_name, $last_name, $email, $password)
     $stmt->execute();
     return $pdo->lastInsertId();
 }
+
 function deleteUser($id)
 {
     $pdo = Database::getInstance()->getConnection();
@@ -20,6 +21,7 @@ function deleteUser($id)
     $stmt->execute();
     return true;
 }
+
 function updateUser($id, array $data)
 {
     $pdo = Database::getInstance()->getConnection();

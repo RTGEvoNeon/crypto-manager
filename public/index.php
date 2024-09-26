@@ -1,8 +1,9 @@
-<!DOCTYPE html>
 <?php
 require_once "../src/controllers/balance.php";
 require_once "../src/controllers/coin.php";
+session_start()
 ?>
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -11,6 +12,10 @@ require_once "../src/controllers/coin.php";
 </head>
 
 <body>
+    <?php
+    if (isset($_SESSION)) {
+        echo "<h1>" . $_SESSION['user_id'] . "</h1>";
+    } ?>
     <h1>Это только начало!</h1>
     <h2>Ваш портфель</h2>
     <form class="form" action="../src/controllers/register.php" method="POST">
