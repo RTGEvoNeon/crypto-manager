@@ -13,11 +13,12 @@ session_start()
 
 <body>
     <?php
-    if (isset($_SESSION)) {
-        echo "<h1>" . $_SESSION['user_id'] . "</h1>";
+    if (isset($_SESSION["id"])) {
+        print_r($_SESSION);
     } ?>
     <h1>Это только начало!</h1>
     <h2>Ваш портфель</h2>
+
     <form class="form" action="../src/controllers/register.php" method="POST">
         <input class="input" type="text" name="first_name" placeholder="Имя">
         <input class=" input" type="text" name="last_name" placeholder="Фамилия">
@@ -25,6 +26,12 @@ session_start()
         <input class="input" type="password" name="password" placeholder="Пароль">
         <input class="input" type="password" name="check" placeholder="Пароль еще раз">
         <button class="btn" type="submit">Регистрация</button>
+    </form>
+    </br>
+    <form class="form" action="../src/controllers/auth.php" method="POST">
+        <input class=" input" type="email" name="email" placeholder="Почта">
+        <input class="input" type="password" name="password" placeholder="Пароль">
+        <button class="btn" type="submit">Авторизация</button>
     </form>
     <table>
         <thead>
