@@ -1,7 +1,6 @@
 <?php
 require_once 'user.php';
 
-
 session_start();
 // Проверяем, отправлена ли форма
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
