@@ -4,13 +4,18 @@ class Database
 {
     private static $instance = null;
     private $connection;
-    private $host = 'db';
-    private $db_name = 'crypto_db';
-    private $db_user = 'crypto_user';
-    private $password = 'password';
+    private $host;
+    private $db_name;
+    private $db_user;
+    private $password;
 
     private function __construct()
     {
+        $this->host = getenv('DB_HOST') ?: '127.0.0.1';
+        $this->db_name = 'crypto_db';
+        $this->db_user = 'crypto_user';
+        $this->password = 'password';
+
         $dsn = "mysql:host=$this->host;dbname=$this->db_name;";
         $options = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
