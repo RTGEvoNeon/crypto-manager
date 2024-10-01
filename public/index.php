@@ -16,11 +16,36 @@ session_start()
     if (isset($_SESSION["id"])) {
         print_r($_SESSION);
     } ?>
-    <h1>Это только начало!</h1>
-    <h2>Ваш портфель</h2>
-    <a href="auth.html">
-        <h3>Авторизация/Регистрация</h3>
+    <h1>Crypto-Manager</h1>
+    <form class="form" action="../src/controllers/register.php" method="POST">
+        <h3>Регистрация</h3>
+        <div class="social-icons">
+            <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+            <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+        </div>
+        <input class="input" type="text" name="first_name" placeholder="Имя">
+        <input class="input" type="text" name="last_name" placeholder="Фамилия">
+        <input class="input" type="email" name="email" placeholder="Почта">
+        <input class="input" type="password" name="password" placeholder="Пароль">
+        <input class="input" type="password" name="check" placeholder="Пароль еще раз">
+        <button type="submit">Sign Up</button>
+    </form>
+    <form action="../src/controllers/auth.php" method="POST">
+        <h3>Авторизация</h3>
+        <div class="social-icons">
+            <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+            <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+            <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+        </div>
+        <input type="email" name="email" placeholder="Email">
+        <input type="password" name="password" placeholder="Password">
+        <!-- <a href="#">Forget Your Password?</a> -->
+        <button type="submit">Sign In</button>
+    </form>
     </a>
+    <br><br>
+    <h2>Ваш портфель</h2>
     <table>
         <thead>
             <tr>
@@ -35,7 +60,7 @@ session_start()
             $balances = getBalancesByUserId(1);
             foreach ($balances as $balance): ?>
                 <tr>
-                    <td><?= htmlspecialchars($balance["coin_id"]) ?></td>
+                    <td><?= htmlspecialchars($balance["symbol"]) ?></td>
                     <td><?= htmlspecialchars($balance["quantity"]) ?></td>
                     <td><?= htmlspecialchars($balance["average_price"]) ?></td>
                     <td><?= htmlspecialchars($balance["investment_amount"]) ?></td>

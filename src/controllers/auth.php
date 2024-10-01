@@ -10,12 +10,16 @@ function auth($email, $password)
     $stmt->execute();
     return $stmt->fetchAll()[0];
 }
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user = auth($_POST['email'], $_POST['password']);
-    foreach ($user as $key => $value) {
-        $_SESSION[$key] = $value;
+    print_r($_POST);
+    if ($_POST['email'] && $_POST['password']) {
+        $user = auth($_POST['email'], $_POST['password']);
+        foreach ($user as $key => $value) {
+            $_SESSION[$key] = $value;
+        }
+        $_SESSION['session_id'] = session_id();
+        header("Location: ../../../public/index.php");
+        exit();
     }
-    $_SESSION['session_id'] = session_id();
-    header("Location: ../../../public/index.php");
-    exit();
 }

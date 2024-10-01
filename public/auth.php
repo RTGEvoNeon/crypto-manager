@@ -20,15 +20,15 @@
                     <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
                 </div>
                 <input class="input" type="text" name="first_name" placeholder="Имя">
-                <input class=" input" type="text" name="last_name" placeholder="Фамилия">
-                <input class=" input" type="email" name="email" placeholder="Почта">
+                <input class="input" type="text" name="last_name" placeholder="Фамилия">
+                <input class="input" type="email" name="email" placeholder="Почта">
                 <input class="input" type="password" name="password" placeholder="Пароль">
                 <input class="input" type="password" name="check" placeholder="Пароль еще раз">
-                <button>Sign Up</button>
+                <button type="submit">Sign Up</button>
             </form>
         </div>
         <div class="form-container sign-in">
-            <form class="form" action="../src/controllers/auth.php" method="POST">
+            <form action="../src/controllers/auth.php" method="POST">
                 <h1>Sign In</h1>
                 <div class="social-icons">
                     <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
@@ -37,10 +37,10 @@
                     <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
                 <span>or use your email password</span>
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Password">
+                <input type="email" name="email" placeholder="Email">
+                <input type="password" name="password" placeholder="Password">
                 <a href="#">Forget Your Password?</a>
-                <button>Sign In</button>
+                <button type="submit">Sign In</button>
             </form>
         </div>
         <div class="toggle-container">
