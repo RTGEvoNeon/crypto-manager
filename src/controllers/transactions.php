@@ -16,6 +16,7 @@ function addTransaction($user_id, $coin_id, $type, $quantity, $price)
     //true | false
     if ($stmt->execute()) {
         $balance_id = $pdo->lastInsertId();
+
         $balance = getBalanceById($balance_id);
         $update_balance = [];
         $update_balance['quantity'] = $balance['quantity'] + $quantity;
@@ -24,3 +25,5 @@ function addTransaction($user_id, $coin_id, $type, $quantity, $price)
         return updateBalance($balance_id, $update_balance);
     }
 }
+
+addTransaction(1, 1, "Buy", 1, 100);
