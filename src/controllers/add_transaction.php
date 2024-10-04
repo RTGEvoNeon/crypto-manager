@@ -9,7 +9,8 @@ if (isset($_POST)) {
     $user_id = 1;
     $price = getCurrentPriceById($coin_id);
     if (addTransaction($user_id, $coin_id, $type, $quantity, $price)) {
-        echo "Все прошло успешно";
+        header("Location: ../../public/index.php");
+        exit();
     } else {
         echo "Ошибка добавления транзакции";
     }

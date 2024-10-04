@@ -21,8 +21,6 @@ function getBalanceById($id)
     return $stmt->fetchAll()[0];
 }
 
-
-// TODO: не работает
 function updateBalance($id, array $data)
 {
     $pdo = Database::getInstance()->getConnection();
@@ -39,11 +37,12 @@ function updateBalance($id, array $data)
     $stmt->execute();
     return true;
 }
-$data = [
-    "user_id" => 1,
-    "coin_id" => 1,
-    "quantity" => 1,
-    "average_price" => 40000,
-    "investment_amount" => 40000,
-];
-updateBalance(1, $data);
+// $data = [
+//     "user_id" => 1,
+//     "coin_id" => 1,
+//     "quantity" => 2,
+//     "average_price" => 40000,
+//     "investment_amount" => 40000,
+// ];
+
+// updateBalance(1, $data);
