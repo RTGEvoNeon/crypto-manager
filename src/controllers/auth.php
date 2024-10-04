@@ -1,6 +1,7 @@
 <?php
 require_once "database.php";
-//TODO: доделать функцию, нет должного функционала
+
+session_start();
 function auth($email, $password)
 {
     $pdo = Database::getInstance()->getConnection();
@@ -12,14 +13,13 @@ function auth($email, $password)
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    print_r($_POST);
     if ($_POST['email'] && $_POST['password']) {
         $user = auth($_POST['email'], $_POST['password']);
         foreach ($user as $key => $value) {
             $_SESSION[$key] = $value;
         }
         $_SESSION['session_id'] = session_id();
-        header("Location: ../../../public/index.php");
+        header("Location: ../../public/index.php");
         exit();
     }
 }

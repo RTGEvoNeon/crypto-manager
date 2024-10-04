@@ -19,12 +19,47 @@ function addTransaction($user_id, $coin_id, $type, $quantity, $price)
         $stmt->bindParam(":user_id", $user_id);
         $stmt->bindParam(":coin_id", $coin_id);
         $stmt->execute();
-        $balance = $stmt->fetchAll()[0];
-
-        $update_balance = [];
-        $update_balance['quantity'] = $balance['quantity'] + $quantity;
-        $update_balance['investment_amount'] = $balance["investment_amount"] + $quantity * $price;
-        $update_balance['average_price'] = $update_balance['investment_amount'] / $update_balance['quantity'];
-        return updateBalance($balance["id"], $update_balance);
+        $result = $stmt->fetchAll();
+        if ($result) {
+            $balance = $result[0];
+            $update_balance = [];
+            switch ($type) {
+                case "buy":
+                    $update_balance['quantity'] = $balance['quantity'] + $quantity;
+                    $update_balance['investment_amount'] = $balance["investment_amount"] + $quantity * $price;
+                    $update_balance['average_price'] = $update_balance['investment_amount'] / $update_balance['quantity'];
+                    return updateBalance($balance["id"], $update_balance);
+                    break;
+                case "sell":
+                    if ($balance['quantity'] >= $quantity) {
+                        $update_balance['quantity'] = $balance['quantity'] - $quantity;
+                        $update_balance['investment_amount'] = $balance["investment_amount"] - $quantity * $price;
+                        $update_balance['average_price'] = $update_balance['investment_amount'] / $update_balance['quantity'];
+                        return updateBalance($balance["id"], $update_balance);
+                    } else {
+                        return false;
+                    }
+            }
+        } else {
+            if ($type == "buy") {
+                addBalance($user_id, $coin_id, $quantity, $price, $price * $quantity);
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
+    return false;
 }
+
+function deleteTransactions($user_id, $coin_id)
+{
+    $pdo = Database::getInstance()->getConnection();
+    $stmt = $pdo->prepare("DELETE from transactions WHERE coin_id=:coin_id and user_id=:user_id");
+    $stmt->bindParam(":user_id", $user_id);
+    $stmt->bindParam(":coin_id", $coin_id);
+    $stmt->execute();
+    return true;
+}
+
+// addTransaction(7, 9, "buy", 123, 1);

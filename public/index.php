@@ -46,12 +46,10 @@ session_start()
 </head>
 
 <body>
-    <?php
-    if (isset($_SESSION["id"])) {
-        print_r($_SESSION);
-    } ?>
+    <?php if (!empty($_SESSION)): ?>
+        <p>Приветсвуем вас, наш дорогой <?= $_SESSION["first_name"] ?>!</p>
+    <?php endif; ?>
     <h1>Crypto-Manager</h1>
-    <h2>Авторизация</h2>
     <form class="form" action="../src/controllers/register.php" method="POST">
         <h3>Регистрация</h3>
         <div class="social-icons">
@@ -78,6 +76,12 @@ session_start()
         <!-- <a href="#">Forget Your Password?</a> -->
         <button type="submit">Sign In</button>
     </form>
+
+    <form action="../src/controllers/kill.php" method="POST">
+        <button type="submit">Выйти из аккаунта</button>
+    </form>
+
+
     </a>
     <br><br>
     <h2>Ваш портфель</h2>
@@ -92,15 +96,19 @@ session_start()
         </thead>
         <tbody>
             <?php
-            $balances = getBalancesByUserId(1);
-            foreach ($balances as $balance): ?>
-                <tr>
-                    <td><?= htmlspecialchars($balance["symbol"]) ?></td>
-                    <td><?= htmlspecialchars($balance["quantity"]) ?></td>
-                    <td><?= htmlspecialchars($balance["average_price"]) ?></td>
-                    <td><?= htmlspecialchars($balance["investment_amount"]) ?></td>
-                </tr>
-            <?php endforeach; ?>
+            if (!empty($_SESSION)) {
+                $balances = getBalancesByUserId($_SESSION['id']);
+                foreach ($balances as $balance): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($balance["symbol"]) ?></td>
+                        <td><?= htmlspecialchars($balance["quantity"]) ?></td>
+                        <td><?= htmlspecialchars($balance["average_price"]) ?></td>
+                        <td><?= htmlspecialchars($balance["investment_amount"]) ?></td>
+                        <td class="del-balance" id="<?= htmlspecialchars($balance["id"]) ?>">&times;</td>
+                    </tr>
+            <?php endforeach;
+            }
+            ?>
         </tbody>
     </table>
     <!-- Затемнение фона -->
@@ -118,8 +126,8 @@ session_start()
                 <?php endforeach; ?>
             </select>
             <select name="type">
-                <option value="Buy">Покупка</option>
-                <option value="Sell">Продажа</option>
+                <option value="buy">Покупка</option>
+                <option value="sell">Продажа</option>
             </select>
             <input class="input" type="number" name="quantity" placeholder="Количество монет">
             <button class="btn" type="submit">Добавить монету</button>

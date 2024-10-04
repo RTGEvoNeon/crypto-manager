@@ -7,7 +7,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST)) {
         if ($_POST['password'] == $_POST['check']) {
             $user_id = addUser($_POST["first_name"], $_POST["last_name"], $_POST["email"], $_POST["password"]);
-            $_SESSION['user_id'] = $user_id;
             header("Location: ../../../public/index.php");
             exit();
         } else {
