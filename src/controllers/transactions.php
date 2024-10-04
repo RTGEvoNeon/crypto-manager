@@ -33,6 +33,9 @@ function addTransaction($user_id, $coin_id, $type, $quantity, $price)
                 case "sell":
                     if ($balance['quantity'] >= $quantity) {
                         $update_balance['quantity'] = $balance['quantity'] - $quantity;
+                        if ($update_balance['quantity'] == 0) {
+                            return deleteBalanceById($balance["id"]);
+                        }
                         $update_balance['investment_amount'] = $balance["investment_amount"] - $quantity * $price;
                         $update_balance['average_price'] = $update_balance['investment_amount'] / $update_balance['quantity'];
                         return updateBalance($balance["id"], $update_balance);
